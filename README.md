@@ -1,20 +1,20 @@
 # Dowloader
 
-#### Gestor de Descarga 
+#### Console Gownload Manager
 
-Programa para descarga de archivos, permite partir la descarga en varios hilos simultáneos.
+Program for downloading files, allows to split the download into several simultaneous threads.
 
-### parámetros:
+### Parameters:
 
     -url file url (required)
     -o   output file (required)
     -n   number of concurent downloads (Optional) 
     -v   show progress (Optional)
 
-### Ejemplo de Uso
+### Example
 
 `downloader -n 5 -v -url http://myhost.com/eclipse.zip -o eclipse.zip`
 
-### Notas
+### Note
 
-Se implementa recuperación de errores en caso de micro cortes en la comunicación
+Error recovery is implemented in case of micro cuts in communication
