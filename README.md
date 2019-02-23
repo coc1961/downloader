@@ -7,7 +7,7 @@ Program for downloading files, allows to split the download into several simulta
 ### Parameters:
 
     -url file url (required)
-    -o   output file (required)
+    -o   output file (Optional, Recomended)
     -n   number of concurent downloads (Optional) 
     -v   show progress (Optional)
 
