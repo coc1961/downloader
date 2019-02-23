@@ -2,6 +2,12 @@
 
 #### Console Gownload Manager
 
+## Install
+
+`go get -u github.com/coc1961/downloader`
+
+## Use
+
 Program for downloading files, allows to split the download into several simultaneous threads.
 
 ### Parameters:

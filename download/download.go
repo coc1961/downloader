@@ -166,7 +166,7 @@ func (r *progressReader) Read(p []byte) (n int, err error) {
 	return lei, err
 }
 
-// File descarga un archivo en partes procesadas en procesos simultaneos
+// File descarga un archivo en partes procesadas en procesos simultáneos
 func File(resourceURL *url.URL, workers int64, out *os.File, listener func(status []Status)) {
 
 	client := CreateClient()
@@ -202,7 +202,7 @@ func File(resourceURL *url.URL, workers int64, out *os.File, listener func(statu
 	wg := sync.WaitGroup{}
 	wg.Add(int(workers))
 
-	// Lanzo el Hilo de Verificacion de Timeout
+	// Lanzo el Hilo de Verificación de Timeout
 	go timeoutVerify(&progressBarArray)
 
 	// Creo los downloaders parciales
