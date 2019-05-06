@@ -21,7 +21,7 @@ import (
 // Soporta hasta n hilos, pasados por parametro
 
 func main() {
-	var pointerVerbose = flag.Bool("q", false, "quiet, not show progress (Optional)")
+	var pointerVerbose = flag.Bool("q", false, "quiet,not show progress (Optional)")
 	var pointerWorkers = flag.Int64("n", int64(runtime.GOMAXPROCS(runtime.NumCPU())), "number of concurent downloads (Optional)")
 	var pointerOutputFile = flag.String("o", "", "output file (Optional)")
 	var pointerSUrl = flag.String("url", "", "download file url (required)")
