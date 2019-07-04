@@ -21,7 +21,7 @@ import (
 	"time"
 )
 
-const sleepTipme time.Duration = 500
+const sleepTipme time.Duration = 800
 const secondsTimeout = 10
 const nanosecondsTimeout = secondsTimeout * 1000000000
 
@@ -226,11 +226,14 @@ func File(resourceURL *url.URL, workers int64, out *os.File, listener func(statu
 	// Muestro Barra de Progreso
 	if listener != nil {
 		go func() {
+			var statusArray = make([]Status, 0)
 			for {
 				// Convierto en Objetos Status
-				statusArray := make([]Status, len(progressBarArray))
+				if len(statusArray) != len(progressBarArray) {
+					statusArray = make([]Status, len(progressBarArray))
+				}
 				for i, value := range progressBarArray {
-					statusArray[i] = value
+					statusArray[i] = statusImpl(value.Progress())
 				}
 				listener(statusArray)
 				time.Sleep(time.Millisecond * sleepTipme)
@@ -258,6 +261,14 @@ func File(resourceURL *url.URL, workers int64, out *os.File, listener func(statu
 	}
 	time.Sleep(time.Millisecond * sleepTipme)
 
+}
+
+//Progress Status
+type statusImpl int64
+
+//Progress Retorna al porcentaje de la descarga realizada
+func (r statusImpl) Progress() int64 {
+	return int64(r)
 }
 
 // Verifico el Timeout para detectar caidas en la conexion
