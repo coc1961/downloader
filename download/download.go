@@ -119,7 +119,7 @@ func (p *partialDownload) download(progressArray *[]*progressReader, wg *sync.Wa
 		}
 
 		// Descargo!
-		_, error = io.Copy(p.out, wrapReader)
+		_, error = io.CopyBuffer(p.out, wrapReader, make([]byte, 65536))
 		p.err = error
 		if error != nil {
 			// Si Hay Error Reproceso
