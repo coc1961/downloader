@@ -42,7 +42,7 @@ func createPartialDownload(resourceURL *url.URL, chunkStart int64, chunkEnd int6
 	return &partialDownload{resourceURL, rangeHeader, out, nil, chunkEnd - chunkStart, chunkStart, chunkEnd}
 }
 
-//CreateClient Crea un cliente http con o sin proxy
+// CreateClient Crea un cliente http con o sin proxy
 func CreateClient() *http.Client {
 	proxy := os.Getenv("http_proxy")
 	var proxyURL *url.URL
@@ -102,7 +102,7 @@ func (p *partialDownload) download(progressArray *[]*progressReader, wg *sync.Wa
 		p.out = out
 
 		// Me posiciono en la posicion en donde debo descargar
-		p.out.Seek(p.chunkStart, os.SEEK_SET)
+		_, _ = p.out.Seek(p.chunkStart, os.SEEK_SET)
 
 		// Agrego al array para desplegar el porc de descarga
 		if i == 0 {
@@ -131,7 +131,6 @@ func (p *partialDownload) download(progressArray *[]*progressReader, wg *sync.Wa
 			break
 		}
 	}
-	return
 }
 
 // Creo el objeto para alimentar la barra de progreso
@@ -145,7 +144,7 @@ type Status interface {
 	Progress() int64
 }
 
-//progressReader  Envoltorio de reader que guarda el % de descarga
+// progressReader  Envoltorio de reader que guarda el % de descarga
 type progressReader struct {
 	reader   *io.ReadCloser // Reader original
 	len      int64          // total a descargar
@@ -153,7 +152,7 @@ type progressReader struct {
 	lastRead time.Time      // Ultima Lectura
 }
 
-//Progress Retorna al porcentaje de la descarga realizada
+// Progress Retorna al porcentaje de la descarga realizada
 func (r *progressReader) Progress() int64 {
 	return int64(r.pos / (r.len / 100))
 }
@@ -194,7 +193,7 @@ func File(resourceURL *url.URL, workers int64, out *os.File, listener func(statu
 	partialDownloadArray := make([]*partialDownload, 0)
 
 	// Reservo Espacio en el Archivo de Salida
-	out.Truncate(contentLength)
+	_ = out.Truncate(contentLength)
 
 	// Calculo el tamaño del chunk tamaño / hilos
 	chunkSize := contentLength / workers
@@ -263,10 +262,10 @@ func File(resourceURL *url.URL, workers int64, out *os.File, listener func(statu
 
 }
 
-//Progress Status
+// Progress Status
 type statusImpl int64
 
-//Progress Retorna al porcentaje de la descarga realizada
+// Progress Retorna al porcentaje de la descarga realizada
 func (r statusImpl) Progress() int64 {
 	return int64(r)
 }
@@ -275,7 +274,7 @@ func (r statusImpl) Progress() int64 {
 func timeoutVerify(progressBarArray *[]*progressReader) {
 	for {
 		for _, ret := range *progressBarArray {
-			diff := time.Now().Sub(ret.lastRead)
+			diff := time.Since(ret.lastRead)
 			if diff > nanosecondsTimeout {
 				(*(ret.reader)).Close()
 				ret.lastRead = time.Now()
